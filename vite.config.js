@@ -1,10 +1,13 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [reactRefresh()],
-  server: {
-    port: parseInt(process.env.VITE_PORT) || 4000
-  }
-})
+export default ({ mode }) => {
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+
+  return defineConfig({
+    plugins: [reactRefresh()],
+      server: {
+      port: parseInt(process.env.VITE_PORT) || 4000
+    }
+  })
+}
